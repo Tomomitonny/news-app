@@ -6,7 +6,7 @@ interface CategorySelectorProps {
 }
 
 const CategorySelector: React.FC<CategorySelectorProps> = ({ selectedCategory, onSelectCategory }) => {
-  const categories = ['TOP', 'NEW', 'BEST'];
+  const categories = ['トップ', 'おすすめ', '天気', '政治', 'ビジネス', 'スポーツ', '文化'];
 
   return (
     <div>

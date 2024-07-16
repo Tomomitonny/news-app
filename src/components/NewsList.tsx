@@ -3,6 +3,7 @@ import { NewsItem } from '../types/news';
 
 interface NewsListProps {
   category: string;
+  keyword: string;
 }
 
 const NewsList: React.FC<NewsListProps> = ({ category }) => {
@@ -13,9 +14,13 @@ const NewsList: React.FC<NewsListProps> = ({ category }) => {
     const fetchNews = async () => {
       setLoading(true);
       const categoryMap: { [key: string]: string } = {
-        TOP: 'topstories',
-        NEW: 'newstories',
-        BEST: 'beststories',
+        トップ: 'topstories',
+        おすすめ: 'beststories',
+        天気: 'weather',
+        政治: 'politics',
+        ビジネス: 'business',
+        スポーツ: 'sports',
+        文化: 'culture',
       };
       try {
         const response = await fetch(`https://hacker-news.firebaseio.com/v0/${categoryMap[category]}.json`);
