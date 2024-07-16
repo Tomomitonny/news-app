@@ -6,7 +6,7 @@ interface NewsListProps {
   keyword: string;
 }
 
-const NewsList: React.FC<NewsListProps> = ({ category }) => {
+const NewsList: React.FC<NewsListProps> = ({ category, keyword }) => {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -27,9 +27,9 @@ const NewsList: React.FC<NewsListProps> = ({ category }) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const newsIds = await response.json();
-        const newsIdsSlice = newsIds.slice(0, 10); // 最初の10件を取得
-        const newsPromises = newsIdsSlice.map(id => 
+        const newsIds: number[] = await response.json(); // 型をnumber[]に指定
+        const newsIdsSlice = newsIds.slice(0, 10); 
+        const newsPromises = newsIdsSlice.map((id: number) => // idの型をnumberに指定
           fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -47,7 +47,7 @@ const NewsList: React.FC<NewsListProps> = ({ category }) => {
     };
 
     fetchNews();
-  }, [category]);
+  }, [category, keyword]);
 
   if (loading) {
     return <div>Loading...</div>;

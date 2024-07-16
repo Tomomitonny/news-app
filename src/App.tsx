@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CategorySelector from './components/CategorySelector.tsx';
-import NewsList from './components/NewsList.tsx';
+import CategorySelector from './components/CategorySelector';
+import NewsList from './components/NewsList';
 
 
 const App: React.FC = () => {
