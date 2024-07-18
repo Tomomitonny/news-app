@@ -27,9 +27,9 @@ const NewsList: React.FC<NewsListProps> = ({ category, keyword }) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const newsIds: number[] = await response.json(); // 型をnumber[]に指定
-        const newsIdsSlice = newsIds.slice(0, 10); 
-        const newsPromises = newsIdsSlice.map((id: number) => // idの型をnumberに指定
+        const newsIds: number[] = await response.json();
+        const newsIdsSlice = newsIds.slice(0, 10);
+        const newsPromises = newsIdsSlice.map((id: number) =>
           fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -38,7 +38,11 @@ const NewsList: React.FC<NewsListProps> = ({ category, keyword }) => {
           })
         );
         const newsResults = await Promise.all(newsPromises);
-        setNewsItems(newsResults);
+        const newsWithImages = newsResults.map(news => ({
+          ...news,
+          image: 'https://via.placeholder.com/150'
+        }));
+        setNewsItems(newsWithImages);
       } catch (error) {
         console.error('Error fetching news:', error);
       } finally {
@@ -47,7 +51,7 @@ const NewsList: React.FC<NewsListProps> = ({ category, keyword }) => {
     };
 
     fetchNews();
-  }, [category, keyword]);
+  }, [category,keyword]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -61,6 +65,7 @@ const NewsList: React.FC<NewsListProps> = ({ category, keyword }) => {
             {news.title}
           </a>
           <p>by {news.by}</p>
+          {news.image && <img src={news.image} alt={news.title} />}
         </li>
       ))}
     </ul>
